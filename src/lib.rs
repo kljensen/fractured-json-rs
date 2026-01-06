@@ -60,8 +60,10 @@ mod tests {
             {"x": 1, "y": 2},
             {"x": 10, "y": 20}
         ]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_table_row_complexity = 3;
+        let options = FracturedJsonOptions {
+            max_table_row_complexity: 3,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("\"x\"") || result.contains("1"));
     }
@@ -72,8 +74,10 @@ mod tests {
             [1, 2, 3],
             [4, 5, 6]
         ]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_table_row_complexity = 2;
+        let options = FracturedJsonOptions {
+            max_table_row_complexity: 2,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("1"));
         assert!(result.contains("2"));
@@ -83,9 +87,11 @@ mod tests {
     #[test]
     fn test_compact_array_formatting() {
         let input = r#"[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_compact_array_complexity = 1;
-        options.min_compact_array_row_items = 4;
+        let options = FracturedJsonOptions {
+            max_compact_array_complexity: 1,
+            min_compact_array_row_items: 4,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("["));
         assert!(result.contains("]"));
@@ -94,9 +100,11 @@ mod tests {
     #[test]
     fn test_number_alignment_left() {
         let input = r#"[1, 10, 100, 1000]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_inline_complexity = 0;
-        options.number_list_alignment = NumberListAlignment::Left;
+        let options = FracturedJsonOptions {
+            max_inline_complexity: 0,
+            number_list_alignment: NumberListAlignment::Left,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("1"));
         assert!(result.contains("10"));
@@ -106,9 +114,11 @@ mod tests {
     #[test]
     fn test_number_alignment_decimal() {
         let input = r#"[1.5, 10.25, 100.125]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_inline_complexity = 0;
-        options.number_list_alignment = NumberListAlignment::Decimal;
+        let options = FracturedJsonOptions {
+            max_inline_complexity: 0,
+            number_list_alignment: NumberListAlignment::Decimal,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("1.5"));
         assert!(result.contains("10.25"));
@@ -117,9 +127,11 @@ mod tests {
     #[test]
     fn test_property_alignment() {
         let input = r#"{"name": "test", "value": 123, "description": "A test object"}"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_inline_complexity = 0;
-        options.max_prop_name_padding = 20;
+        let options = FracturedJsonOptions {
+            max_inline_complexity: 0,
+            max_prop_name_padding: 20,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("\"name\""));
         assert!(result.contains("\"value\""));
@@ -137,8 +149,10 @@ mod tests {
     #[test]
     fn test_comment_removal() {
         let input = r#"{"key": "value" /* comment */}"#;
-        let mut options = FracturedJsonOptions::default();
-        options.comment_policy = CommentPolicy::Remove;
+        let options = FracturedJsonOptions {
+            comment_policy: CommentPolicy::Remove,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(!result.contains("comment"));
     }
@@ -146,9 +160,11 @@ mod tests {
     #[test]
     fn test_trailing_commas() {
         let input = r#"[1, 2, 3]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_inline_complexity = 0;
-        options.allow_trailing_commas = true;
+        let options = FracturedJsonOptions {
+            max_inline_complexity: 0,
+            allow_trailing_commas: true,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains(",\n"));
     }
@@ -156,9 +172,11 @@ mod tests {
     #[test]
     fn test_indentation_spaces() {
         let input = r#"{"a": {"b": 1}}"#;
-        let mut options = FracturedJsonOptions::default();
-        options.indent_spaces = 2;
-        options.max_inline_complexity = 0;
+        let options = FracturedJsonOptions {
+            indent_spaces: 2,
+            max_inline_complexity: 0,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("  "));
     }
@@ -166,9 +184,11 @@ mod tests {
     #[test]
     fn test_indentation_tabs() {
         let input = r#"{"a": {"b": 1}}"#;
-        let mut options = FracturedJsonOptions::default();
-        options.use_tab_to_indent = true;
-        options.max_inline_complexity = 0;
+        let options = FracturedJsonOptions {
+            use_tab_to_indent: true,
+            max_inline_complexity: 0,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("\t"));
     }
@@ -176,8 +196,10 @@ mod tests {
     #[test]
     fn test_empty_object() {
         let input = r#"{}"#;
-        let mut options = FracturedJsonOptions::default();
-        options.simple_bracket_padding = false;
+        let options = FracturedJsonOptions {
+            simple_bracket_padding: false,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("{}"));
     }
@@ -185,8 +207,10 @@ mod tests {
     #[test]
     fn test_empty_array() {
         let input = r#"[]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.simple_bracket_padding = false;
+        let options = FracturedJsonOptions {
+            simple_bracket_padding: false,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("[]"));
     }
@@ -251,9 +275,11 @@ mod tests {
     #[test]
     fn test_line_length_limit() {
         let input = r#"[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.max_total_line_length = 50;
-        options.max_inline_complexity = 1;
+        let options = FracturedJsonOptions {
+            max_total_line_length: 50,
+            max_inline_complexity: 1,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(result.contains("\n"));
     }
@@ -397,8 +423,10 @@ mod tests {
             // remove this
             1, 2, 3
         ]"#;
-        let mut options = FracturedJsonOptions::default();
-        options.comment_policy = CommentPolicy::Remove;
+        let options = FracturedJsonOptions {
+            comment_policy: CommentPolicy::Remove,
+            ..FracturedJsonOptions::default()
+        };
         let result = format_jsonc(input, &options).unwrap();
         assert!(!result.contains("// remove this"));
         assert!(result.contains("1"));
