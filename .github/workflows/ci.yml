@@ -55,7 +55,7 @@ jobs:
       - name: Run actionlint
         uses: docker://rhysd/actionlint:latest
         with:
-          args: -color
+          args: -color .github/workflows/ci.yml
 
   # Test and quality checks
   test:
