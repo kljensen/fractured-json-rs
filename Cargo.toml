@@ -8,6 +8,8 @@ resolver = "2"
 cargo-dist-version = "0.30.3"
 # CI backends to support
 ci = ["github"]
+# Allow manual edits to CI files
+allow-dirty = ["ci"]
 # The installers to generate for each app
 installers = []
 # Target platforms to build apps for (Rust target-triple syntax)
