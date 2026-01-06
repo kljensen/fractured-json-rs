@@ -1,0 +1,11 @@
+.cargo
+.mcp.json
+tmp
+.claude
+target
+
+
+
+# Added by cargo
+
+/target

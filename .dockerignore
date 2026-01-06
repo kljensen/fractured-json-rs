@@ -1,0 +1,22 @@
+# Build artifacts (can be huge)
+target/
+
+# Git directory
+.git/
+
+# Temp files
+tmp/
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor backups
+*~
+*.bak
+*.orig
