@@ -2,14 +2,33 @@
 members = ["."]
 resolver = "2"
 
+# Config for 'dist'
+[workspace.metadata.dist]
+# The preferred cargo-dist version to use in CI (Cargo.toml SemVer syntax)
+cargo-dist-version = "0.30.3"
+# CI backends to support
+ci = ["github"]
+# The installers to generate for each app
+installers = []
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "aarch64-apple-darwin", "x86_64-pc-windows-msvc"]
+# The GitHub repository to use for releases
+repository = "https://github.com/kljensen/fractured-json-rs"
+
 [package]
 name = "fractured-json-rs"
 version = "0.1.0"
 edition = "2021"
 license = "Unlicense"
+repository = "https://github.com/kljensen/fractured-json-rs"
 
 [dependencies]
 jsonc-parser = { version = "0.24", features = ["cst"] }
 clap = { version = "4.5", features = ["derive"] }
 thiserror = "1.0"
 anyhow = "1.0"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

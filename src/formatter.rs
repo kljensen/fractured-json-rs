@@ -16,12 +16,7 @@ pub fn format(item: &JsonItem, options: &FracturedJsonOptions) -> String {
     buffer
 }
 
-fn format_item(
-    item: &ItemRef,
-    options: &FracturedJsonOptions,
-    indent: usize,
-    buffer: &mut String,
-) {
+fn format_item(item: &ItemRef, options: &FracturedJsonOptions, indent: usize, buffer: &mut String) {
     match item.item_type() {
         JsonItemType::Array => {
             if should_inline(item, options, indent) {
@@ -130,11 +125,7 @@ fn should_format_as_compact_array(
     true
 }
 
-fn should_format_as_table(
-    item: &ItemRef,
-    options: &FracturedJsonOptions,
-    _indent: usize,
-) -> bool {
+fn should_format_as_table(item: &ItemRef, options: &FracturedJsonOptions, _indent: usize) -> bool {
     if item.item_type() == JsonItemType::Array {
         // Don't use table format if comments are present
         if item.requires_multiple_lines() {
@@ -318,9 +309,9 @@ fn write_quoted_property_name(s: &str, buffer: &mut String) {
 
 fn escape_string(s: &str) -> Cow<'_, str> {
     // Check if any character needs escaping - enable zero-copy for common case
-    let needs_escape = s.chars().any(|c| {
-        matches!(c, '\\' | '"' | '\n' | '\t' | '\r' | '\x08' | '\x0c') || c <= '\u{001f}'
-    });
+    let needs_escape = s
+        .chars()
+        .any(|c| matches!(c, '\\' | '"' | '\n' | '\t' | '\r' | '\x08' | '\x0c') || c <= '\u{001f}');
 
     if !needs_escape {
         return Cow::Borrowed(s); // Zero-copy for strings without special chars
@@ -413,11 +404,7 @@ fn write_postfix_comment(item: &ItemRef, options: &FracturedJsonOptions, buffer:
     }
 }
 
-fn calculate_items_per_row(
-    item: &ItemRef,
-    options: &FracturedJsonOptions,
-    indent: usize,
-) -> usize {
+fn calculate_items_per_row(item: &ItemRef, options: &FracturedJsonOptions, indent: usize) -> usize {
     if item.is_empty() {
         return 1;
     }

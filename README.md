@@ -1,5 +1,13 @@
 # fractured-json-rs
 
+[![CI](https://img.shields.io/github/actions/workflow/status/kljensen/fractured-json-rs/ci.yml?branch=main&style=for-the-badge&logo=github-actions&logoColor=white&label=CI)](https://github.com/kljensen/fractured-json-rs/actions/workflows/ci.yml)
+[![License: Unlicense](https://img.shields.io/badge/License-Unlicense-yellow.svg?style=for-the-badge)](UNLICENSE)
+[![Rust](https://img.shields.io/badge/rust-1.80%2B-orange.svg?style=for-the-badge&logo=rust)](https://www.rust-lang.org)
+<!--
+[![docs.rs](https://img.shields.io/docsrs/fractured-json-rs?style=for-the-badge)](https://docs.rs/fractured-json-rs)
+[![Crates.io](https://img.shields.io/crates/v/fractured-json-rs?style=for-the-badge)](https://crates.io/crates/fractured-json-rs)
+-->
+
 A human-friendly JSON/JSONC formatter that makes JSON readable while staying compact.
 
 Inspired by [FracturedJson](https://github.com/j-brooke/FracturedJson/), this Rust implementation formats JSON intelligently: simple structures go on one line, similar items align as tables, and complex structures expand beautifully—all while preserving comments.
